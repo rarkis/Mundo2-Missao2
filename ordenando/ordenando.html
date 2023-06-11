@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordenação</title>
+  <script src="ordenando.js"></script>
+</head>
+<body>
+  <h1>Ordenando Valores</h1>
+  <input type="number" id="valor" value="0" >
+  <button onclick="add()">Adicionar</button>
+
+  <select id="selecao">
+    <option value="bubbleSort" selected>Bubble Sort</option>
+    <option value="selectionSort">Selection Sort</option>
+    <option value="quickSort">Quick Sort</option>
+  </select>
+
+  <button onclick="ordenar()">Ordenar</button>
+  <button onclick="misturar()">Misturar</button>
+
+  <ul id="valores"></ul>
+  <script>
+    function add() {
+      const entrada = parseInt(document.getElementById("valor").value);
+      const numeros = document.getElementById("valores");
+      const node = document.createElement("li");
+
+      node.appendChild(document.createTextNode(entrada));
+      numeros.appendChild(node);
+    }
+
+    function ordenar() {
+      const numeros = document.getElementById("valores");
+      const algoritmos = document.getElementById("selecao");
+      const vetor = Array .from(numeros.children)
+                          .map(item => parseInt(item.innerHTML));
+      
+
+      switch (algoritmos.selectedIndex) {
+        case 0: 
+          bubble_sort(vetor);
+          break;
+        case 1: 
+          selection_sort(vetor);
+          break;
+        case 2: 
+          quick_sort(vetor);
+          break;
+        default:
+          console.error("Algoritmo de ordenação inválido");
+          return;
+      }
+
+      numeros.innerHTML = vetor.map(valor => `<li>${valor}</li>`)
+                          .reduce((acumulador,atual)=>(acumulador + atual));
+      // numeros.innerHTML = "";
+      // vetor.forEach(value => {
+      //   const node = document.createElement("li");
+      //   node.innerHTML = value;
+      //   numeros.appendChild(node);
+      // });
+    }
+
+    function misturar() {
+      const numeros = document.getElementById("valores");
+      const vetor = Array.from(numeros.children).map(item => parseInt(item.innerHTML));
+      shuffle(vetor);
+
+      numeros.innerHTML = vetor.map(valor => `<li>${valor}</li>`)
+                          .reduce((acumulador,atual)=>(acumulador + atual));
+      // numeros.innerHTML = "";
+      // vetor.forEach(value => {
+      //   const node = document.createElement("li");
+      //   node.innerHTML = value;
+      //   numeros.appendChild(node);
+      // });
+    }
+  </script>
+</body>
+</html>
